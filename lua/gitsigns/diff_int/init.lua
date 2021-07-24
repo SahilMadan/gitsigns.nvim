@@ -8,9 +8,9 @@ local DiffResult = {}
 local run_diff_xdl
 
 if vim.xdl_diff then
-   run_diff_xdl = require('gitsigns.diff.xdl_diff_nlua')
+   run_diff_xdl = require('gitsigns.diff_int.xdl_diff_nlua')
 else
-   run_diff_xdl = require('gitsigns.diff.xdl_diff_ffi')
+   run_diff_xdl = require('gitsigns.diff_int.xdl_diff_ffi')
 end
 
 function M.run_diff(fa, fb, diff_algo)
@@ -82,8 +82,8 @@ function M.run_word_diff(hunk_body)
 
 
       local hunks = { hunks0[1] }
-      for j = 2, #hunks0 do
-         local h, n = hunks[#hunks], hunks0[j]
+      for i = 2, #hunks0 do
+         local h, n = hunks[#hunks], hunks0[i]
          if not h or not n then break end
          if n.added.start - h.added.start - h.added.count < gaps_between_regions then
             h.added.count = n.added.start + n.added.count - h.added.start

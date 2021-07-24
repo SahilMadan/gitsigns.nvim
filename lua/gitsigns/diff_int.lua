@@ -8,9 +8,13 @@ local DiffResult = {}
 local run_diff_xdl
 
 if vim.xdl_diff then
-   run_diff_xdl = require('gitsigns.diff.xdl_diff_nlua')
+   run_diff_xdl = function(fa, fb, algorithm)
+      local a = vim.tbl_isempty(fa) and '' or table.concat(fa, '\n') .. '\n'
+      local b = vim.tbl_isempty(fb) and '' or table.concat(fb, '\n') .. '\n'
+      return vim.xdl_diff(a, b, { hunk_lines = true, algorithm = algorithm })
+   end
 else
-   run_diff_xdl = require('gitsigns.diff.xdl_diff_ffi')
+   run_diff_xdl = require('gitsigns.diff_int.xdl_diff_ffi')
 end
 
 function M.run_diff(fa, fb, diff_algo)
